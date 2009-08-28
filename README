@@ -1,0 +1,124 @@
+NAME
+    IO::Any - open anything
+
+SYNOPSIS
+        # NOTE commented out lines doesn't work (jet)
+        use IO::Any;
+
+        $fh = IO::Any->read('filename');
+        $fh = IO::Any->read('file://var/log/syslog');
+        #$fh = IO::Any->read('http://search.cpan.org/');
+        #$fh = IO::Any->read('-');
+        $fh = IO::Any->read(['folder', 'other-folder', 'filename']);
+        $fh = IO::Any->read('folder');
+        $fh = IO::Any->read("some text\nwith more lines\n");
+        $fh = IO::Any->read(\"some text\nwith more lines\n");
+        $fh = IO::Any->read('{"123":[1,2,3]}');
+        $fh = IO::Any->read('<root><element>abc</element></root>');
+        #$fh = IO::Any->read(IO::String->new("cba"));
+        #$fh = IO::Any->read($object_with_toString_method);
+
+        $fh = IO::Any->write('filename');
+        $fh = IO::Any->write('file://var/log/syslog');
+        #$fh = IO::Any->write('-');
+        $fh = IO::Any->write(['folder', 'filename']);
+        #$fh = IO::Any->write('=');
+        my $string;
+        $fh = IO::Any->write(\$string);
+
+        my $content = IO::Any->slurp(['folder', 'filename']);
+        IO::Any->spew(['folder2', 'filename'], $content);
+
+        perl -MIO::Any -le 'print IO::Any->slurp("/etc/passwd")'
+        perl -MIO::Any -le 'IO::Any->spew("/tmp/timetick", time())'
+
+DESCRIPTION
+    The aim is to provide read/write anything. The module tries to guess
+    `$what' the "anything" is based on some rules. See `/new' method Pod for
+    examples and `/new' and `/_guess_what' code for the implementation.
+
+    There are two methods `/slurp' and `/spew' to read/write whole `$what'.
+
+METHODS
+  new($what, $how)
+
+    Open `$what' in `$how' mode.
+
+    `$what' can be:
+
+                    'filename'                => [ 'file' => 'filename' ],
+                    'folder/filename'         => [ 'file' => 'folder/filename' ],
+                    'file:///folder/filename' => [ 'file' => '/folder/filename' ],
+                    [ 'folder', 'filename' ]  => [ 'file' => File::Spec->catfile('folder', 'filename') ],
+                    'http://a/b/c'            => [ 'http' => 'http://a/b/c' ],
+                    'https://a/b/c'           => [ 'http' => 'https://a/b/c' ],
+                    '{"123":[1,2,3]}'         => [ 'string' => '{"123":[1,2,3]}' ],
+                    '[1,2,3]'                 => [ 'string' => '[1,2,3]' ],
+                    '<xml></xml>'             => [ 'string' => '<xml></xml>' ],
+                    "a\nb\nc\n"               => [ 'string' => "a\nb\nc\n" ],    
+
+    Returns filehandle. IO::String for 'string', IO::File for 'file'. 'http'
+    not implemented jet :)
+
+  _guess_what
+
+    Returns ($type, $what). $type can be:
+
+        file
+        string
+        http
+
+    `$what' is normalized path that can be used for IO::*.
+
+  read($what)
+
+    Same as `<IO::Any-'new($what, '<');>> or `<IO::Any-'new($what);>>.
+
+  write($what)
+
+    Same as `<IO::Any-'new($what, '>');>>
+
+  slurp($what)
+
+    Returns content of `$what'.
+
+  spew($what, $data)
+
+    Writes `$data' to `$what'.
+
+AUTHOR
+    Jozef Kutej, `<jkutej at cpan.org>'
+
+BUGS
+    Please report any bugs or feature requests to `bug-io-any at
+    rt.cpan.org', or through the web interface at
+    http://rt.cpan.org/NoAuth/ReportBug.html?Queue=IO-Any. I will be
+    notified, and then you'll automatically be notified of progress on your
+    bug as I make changes.
+
+SUPPORT
+    You can find documentation for this module with the perldoc command.
+
+        perldoc IO::Any
+
+    You can also look for information at:
+
+    * RT: CPAN's request tracker
+        http://rt.cpan.org/NoAuth/Bugs.html?Dist=IO-Any
+
+    * AnnoCPAN: Annotated CPAN documentation
+        http://annocpan.org/dist/IO-Any
+
+    * CPAN Ratings
+        http://cpanratings.perl.org/d/IO-Any
+
+    * Search CPAN
+        http://search.cpan.org/dist/IO-Any
+
+ACKNOWLEDGEMENTS
+COPYRIGHT & LICENSE
+    Copyright 2009 Jozef Kutej, all rights reserved.
+
+    This program is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+

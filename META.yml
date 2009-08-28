@@ -1,0 +1,28 @@
+---
+name: IO-Any
+version: 0.01
+author:
+  - 'Jozef Kutej <jkutej@cpan.org>'
+abstract: open anything
+license: perl
+resources:
+  license: http://dev.perl.org/licenses/
+requires:
+  Carp: 0
+  File::Spec: 0
+  IO::File: 0
+  IO::String: 0
+  Scalar::Util: 0
+build_requires:
+  File::Slurp: 0
+  File::Temp: 0
+  Test::Differences: 0
+  Test::More: 0
+provides:
+  IO::Any:
+    file: lib/IO/Any.pm
+    version: 0.01
+generated_by: Module::Build version 0.33
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
