@@ -1,12 +1,14 @@
 ---
 name: IO-Any
-version: 0.02
+version: 0.03
 author:
   - 'Jozef Kutej <jkutej@cpan.org>'
 abstract: open anything
 license: perl
 resources:
+  bugtracker: http://github.com/jozef/IO-Any/issues
   license: http://dev.perl.org/licenses/
+  repository: git://github.com/jozef/IO-Any.git
 build_requires:
   File::Slurp: 0
   File::Temp: 0
@@ -23,8 +25,13 @@ configure_requires:
 provides:
   IO::Any:
     file: lib/IO/Any.pm
-    version: 0.02
+    version: 0.03
 generated_by: Module::Build version 0.35
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
   version: 1.4
+keywords:
+  - io
+  - portable
+  - slurp
+  - spew
