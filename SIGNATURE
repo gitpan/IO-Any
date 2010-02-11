@@ -1,5 +1,5 @@
 This file contains message digests of all files listed in MANIFEST,
-signed via the Module::Signature module, version 0.55.
+signed via the Module::Signature module, version 0.61.
 
 To verify the content in this distribution, first make sure you have
 Module::Signature installed, then type:
@@ -14,14 +14,16 @@ not run its Makefile.PL or Build.PL.
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-SHA1 da884b1940a6fa41ced285416ddc9576fe6b4511 Build.PL
-SHA1 5f1a8d1f899b63d5bdea23a2fe182d1eecfd7b1e Changes
-SHA1 e0ccdf7e5a5f651a746b2228166a14fbb475f271 MANIFEST
-SHA1 aceebb5587f201fc317fa9749e5261db07bfd1dd META.yml
-SHA1 ab8f7dcc2b2d695a182808e157bdffa20d9b1238 Makefile.PL
-SHA1 11ec791cd372b7696291170aceb98e73e342d5f0 README
-SHA1 675a471b4187aa847d3bd1e65b08aaafbf97cbcc lib/IO/Any.pm
-SHA1 e6f67cacb9bb9badf39108c283241679b70c532c t/01_IO-Any.t
+SHA1 265f58fb0a226d5396814d829a4415b419f4db9b Build.PL
+SHA1 c066c8027ae55f378ff52cfb1220e3cc86106e06 Changes
+SHA1 4fc268ed6a613a08bb1161ebd44164cac6240afc MANIFEST
+SHA1 87462a7a9e63f5fcb384704056cae25459e1068a META.yml
+SHA1 4524bbbbaa6425167813d1eb0675aa9416454368 Makefile.PL
+SHA1 3e6e378b59713e77d6388b0ed09ce9a206720abc README
+SHA1 9eb3139237400911728ce078072e68282a421eb4 lib/IO/Any.pm
+SHA1 1cad69cb8439e10a08c1ee94379f45dfe4e62399 t/01_IO-Any.t
+SHA1 78814d5e0c7a09cf180449f263a004606736eaf3 t/02_IO-Any_AnyEvent.t
+SHA1 355685e337bdb802653d1458babb5f87218b9338 t/03_DATA.t
 SHA1 41533fbd463e42d2ecf1e119eca910c16809d13e t/distribution.t
 SHA1 10c564e5ffe84748070827b350edbf3d6b832b20 t/fixme.t
 SHA1 0b1c5a2d59be6bfa7d60c64cd964fea6a0331705 t/pod-coverage.t
@@ -29,9 +31,9 @@ SHA1 4af641cdc7b41675aa47a429e93676a13e2864a2 t/pod-spell.t
 SHA1 640935336dc1123c0069bcf5432bcaedc2cf22d3 t/pod.t
 SHA1 98035ce77880d6b0f49d4739ea765d4af2a57137 t/stock/01.txt
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.9 (GNU/Linux)
+Version: GnuPG v1.4.10 (GNU/Linux)
 
-iEYEARECAAYFAkq5CRAACgkQC0OgUPgL2SfI/wCfRdJjlzvW8H2U/anR2Bf0eycP
-eA0AniB1DTcg/vf8iZ8L1MCkh87wjMtw
-=4FGx
+iEYEARECAAYFAkt0T3kACgkQC0OgUPgL2SeJbgCfX+ew38A11775/ZjPuh0cnyEP
+9bcAn3yT/DbxULiR80/F61rSyBnd8yIa
+=eX2U
 -----END PGP SIGNATURE-----

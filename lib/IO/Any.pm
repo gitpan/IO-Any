@@ -19,6 +19,7 @@ IO::Any - open anything
     $fh = IO::Any->read(\"some text\nwith more lines\n");
     $fh = IO::Any->read('{"123":[1,2,3]}');
     $fh = IO::Any->read('<root><element>abc</element></root>');
+    $fh = IO::Any->read(*DATA);
     #$fh = IO::Any->read(IO::String->new("cba"));
     #$fh = IO::Any->read($object_with_toString_method);
 
@@ -64,7 +65,7 @@ Any suggestions, questions and also demotivations are more than welcome!
 use warnings;
 use strict;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 use 5.010;
 
@@ -72,11 +73,13 @@ use Carp 'croak';
 use Scalar::Util 'blessed';
 use IO::String;
 use IO::File;
+use IO::AtomicFile;
 use File::Spec;
+use Fcntl qw(:flock);
 
 =head1 METHODS
 
-=head2 new($what, $how)
+=head2 new($what, $how, $options)
 
 Open C<$what> in C<$how> mode.
 
@@ -91,10 +94,19 @@ C<$what> can be:
 		'{"123":[1,2,3]}'         => [ 'string' => '{"123":[1,2,3]}' ],
 		'[1,2,3]'                 => [ 'string' => '[1,2,3]' ],
 		'<xml></xml>'             => [ 'string' => '<xml></xml>' ],
-		"a\nb\nc\n"               => [ 'string' => "a\nb\nc\n" ],    
+		"a\nb\nc\n"               => [ 'string' => "a\nb\nc\n" ],
+		*DATA                     => [ 'file' => *{DATA}{IO} ],
 
 Returns filehandle. L<IO::String> for 'string', L<IO::File> for 'file'.
 'http' not implemented jet :)
+
+Here are alvailable C<%$options> options:
+
+    atomic    true/false if the file operations should be done using L<IO::AtomicFile> or L<IO::File>
+    LOCK_SH   lock file for shared access
+    LOCK_EX   lock file for exclusive
+    LOCK_NB   lock file non blocking (will throw an excpetion if file is
+                  already locked, instead of blocking the process)
 
 =cut
 
@@ -102,20 +114,43 @@ sub new {
     my $class = shift;
     my $what  = shift;
     my $how   = shift || '<';
+    my $opt   = shift || {};
     croak 'too many arguments'
         if @_;
+
+    croak '$what is missing'
+        if not defined $what;
+    
+    croak 'expecting hash ref'
+        if ref $opt ne 'HASH';
+    foreach my $key (keys %$opt) {
+        croak 'unknown option '.$key
+            if (not $key ~~ ['atomic', 'LOCK_SH', 'LOCK_EX', 'LOCK_NB']);
+    }
     
     my ($type, $proper_what) = $class->_guess_what($what);
     
     given ($type) {
         when ('string') { return IO::String->new($proper_what) }
         when ('file')   {
-            my $fh = IO::File->new;
+            my $fh = $opt->{'atomic'} ? IO::AtomicFile->new() : IO::File->new();
             $fh->open($proper_what, $how)
                 or croak 'error opening file "'.$proper_what.'" - '.$!;
+            
+            # locking if requested
+            if ($opt->{'LOCK_SH'} or $opt->{'LOCK_EX'}) {
+                flock($fh,
+                    ($opt->{'LOCK_SH'} ? LOCK_SH : 0)
+                    | ($opt->{'LOCK_EX'} ? LOCK_EX : 0)
+                    | ($opt->{'LOCK_NB'} ? LOCK_NB : 0)
+                ) or croak 'flock failed - '.$!;
+            }
+            
             return $fh;
         }
-        when ('http')   { die 'no http support jet :-|' }
+        when ('iofile')   { return $proper_what }
+        when ('iostring') { return $proper_what }
+        when ('http')     { die 'no http support jet :-|' }
     }
 }
 
@@ -127,6 +162,8 @@ Returns ($type, $what). $type can be:
     file
     string
     http
+    iostring
+    iofile
 
 C<$what> is normalized path that can be used for IO::*.
 
@@ -136,8 +173,16 @@ sub _guess_what {
     my $class = shift;
     my $what  = shift;
     
-    if (blessed $what) {
-        return 'no blessed support jet';
+    given (blessed $what) {
+        when (undef) {}            # not blessed, do nothing
+        when ('Path::Class::File') { $what = $what->stringify }
+        when (['IO::File', 'IO::AtomicFile']) {
+            croak 'passed unopened IO::File'
+                if not $what->opened;
+            return ('iofile', $what);
+        }
+        when ('IO::String')        { return ('iostring', $what) }
+        default { croak 'no support for '.$_ };
     }
     
     given (ref $what) {
@@ -147,6 +192,11 @@ sub _guess_what {
         default { croak 'no support for ref '.(ref $what) }
     }
     
+    # check for typeglobs
+    if ((ref \$what eq 'GLOB') and (my $fh = *{$what}{IO})) {
+        return ('iofile', $fh);
+    }
+
     given ($what) {
         when (m{^file://(.+)$}) { return ('file', $1) }              # local file
         when (m{^https?://})    { return ('http', $what) }           # http link
@@ -154,6 +204,7 @@ sub _guess_what {
         when (m(^{))            { return ('string', $what) }         # json string
         when (m{^\[})           { return ('string', $what) }         # json string
         when (m{\n[\s\w]})      { return ('string', $what) }         # multi-line string
+        when ('')               { return ('string', '') }            # empty string
         default                 { return ('file', $what) }           # default is filename
     }
 }
@@ -168,10 +219,11 @@ Same as C<< IO::Any->new($what, '<'); >> or C<< IO::Any->new($what); >>.
 sub read {
     my $class = shift;
     my $what  = shift;
+    my $opt   = shift;
     croak 'too many arguments'
         if @_;
     
-    return $class->new($what, '<');
+    return $class->new($what, '<', $opt);
 }
 
 
@@ -184,10 +236,11 @@ Same as C<< IO::Any->new($what, '>'); >>
 sub write {
     my $class = shift;
     my $what  = shift;
+    my $opt   = shift;
     croak 'too many arguments'
         if @_;
     
-    return $class->new($what, '>');
+    return $class->new($what, '>', $opt);
 }
 
 
@@ -195,22 +248,57 @@ sub write {
 
 Returns content of C<$what>.
 
+If L<AnyEvent> is loaded then uses event loop to read the content.
+
 =cut
 
 sub slurp {
     my $class = shift;
     my $what  = shift;
+    my $opt   = shift;
     croak 'too many arguments'
         if @_;
     
-    my $fh = $class->read($what);
-    return do { local $/; <$fh> };
+    my $fh = $class->read($what, $opt);
+    
+    # use event loop when AnyEvent is loaded (skip IO::String, doesn't work and makes no sense)
+    if ($INC{'AnyEvent.pm'} and not $fh->isa('IO::String')) {
+        eval 'use AnyEvent::Handle'
+            if not $INC{'AnyEvent/Handle.pm'};
+        my $eof = AnyEvent->condvar;
+        my $content = '';
+        my $hdl = AnyEvent::Handle->new(
+            fh      => $fh,
+            on_read => sub {
+                $content .= delete $_[0]->{'rbuf'};
+            },
+            on_eof  => sub {
+                $eof->send;
+            },
+            on_error => sub {
+                my ($hdl, $fatal, $msg) = @_;
+                $hdl->destroy;
+                $eof->croak($msg);
+            }
+        );
+
+        $eof->recv;
+        $hdl->destroy;
+        close $fh;
+        return $content;
+    }
+    
+    my $content = do { local $/; <$fh> };
+    close $fh;
+    return $content;    
 }
 
 
-=head2 spew($what, $data)
+=head2 spew($what, $data, $opt)
 
 Writes C<$data> to C<$what>.
+
+If L<AnyEvent> is loaded then uses event loop to write the content.
 
 =cut
 
@@ -218,11 +306,44 @@ sub spew {
     my $class = shift;
     my $what  = shift;
     my $data  = shift;
+    my $opt   = shift;
     croak 'too many arguments'
         if @_;
     
-    my $fh = $class->write($what);
-    return $fh->print($data);
+    # "parade" to allow safe locking
+    my $fh = $class->new($what, '+>>', $opt);
+    $fh->seek(0,0);
+    $fh->truncate(0);
+
+    # use event loop when AnyEvent is loaded (skip IO::String, doesn't work and makes no sense)
+    if ($INC{'AnyEvent.pm'} and not $fh->isa('IO::String')) {
+        eval 'use AnyEvent::Handle'
+            if not $INC{'AnyEvent/Handle.pm'};
+        
+        my $eof = AnyEvent->condvar;
+        my $hdl = AnyEvent::Handle->new(
+            fh       => $fh,
+            on_drain => sub {
+                $eof->send;
+            },
+            on_error => sub {
+                my ($hdl, $fatal, $msg) = @_;
+                $hdl->destroy;
+                $eof->croak($msg);
+            }
+        );
+        
+        $hdl->push_write($data);
+
+        $eof->recv;
+        $hdl->destroy;
+        close $fh;
+        return;
+    }
+
+    print $fh $data;
+    $fh->close || croak 'failed to close file - '.$!;
+    return;
 }
 
 1;

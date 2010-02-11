@@ -15,6 +15,7 @@ SYNOPSIS
         $fh = IO::Any->read(\"some text\nwith more lines\n");
         $fh = IO::Any->read('{"123":[1,2,3]}');
         $fh = IO::Any->read('<root><element>abc</element></root>');
+        $fh = IO::Any->read(*DATA);
         #$fh = IO::Any->read(IO::String->new("cba"));
         #$fh = IO::Any->read($object_with_toString_method);
 
@@ -56,8 +57,7 @@ MOTIVATION
     Any suggestions, questions and also demotivations are more than welcome!
 
 METHODS
-  new($what, $how)
-
+  new($what, $how, $options)
     Open `$what' in `$how' mode.
 
     `$what' can be:
@@ -71,36 +71,46 @@ METHODS
                     '{"123":[1,2,3]}'         => [ 'string' => '{"123":[1,2,3]}' ],
                     '[1,2,3]'                 => [ 'string' => '[1,2,3]' ],
                     '<xml></xml>'             => [ 'string' => '<xml></xml>' ],
-                    "a\nb\nc\n"               => [ 'string' => "a\nb\nc\n" ],    
+                    "a\nb\nc\n"               => [ 'string' => "a\nb\nc\n" ],
+                    *DATA                     => [ 'file' => *{DATA}{IO} ],
 
     Returns filehandle. IO::String for 'string', IO::File for 'file'. 'http'
     not implemented jet :)
 
-  _guess_what
+    Here are alvailable `%$options' options:
 
+        atomic    true/false if the file operations should be done using L<IO::AtomicFile> or L<IO::File>
+        LOCK_SH   lock file for shared access
+        LOCK_EX   lock file for exclusive
+        LOCK_NB   lock file non blocking (will throw an excpetion if file is
+                      already locked, instead of blocking the process)
+
+  _guess_what
     Returns ($type, $what). $type can be:
 
         file
         string
         http
+        iostring
+        iofile
 
     `$what' is normalized path that can be used for IO::*.
 
   read($what)
-
     Same as `IO::Any->new($what, '<');' or `IO::Any->new($what);'.
 
   write($what)
-
     Same as `IO::Any->new($what, '>');'
 
   slurp($what)
-
     Returns content of `$what'.
 
-  spew($what, $data)
+    If AnyEvent is loaded then uses event loop to read the content.
 
+  spew($what, $data, $opt)
     Writes `$data' to `$what'.
+
+    If AnyEvent is loaded then uses event loop to write the content.
 
 SEE ALSO
     IO::All, File::Spec, Path::Class
