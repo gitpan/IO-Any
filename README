@@ -35,32 +35,29 @@ SYNOPSIS
 
 DESCRIPTION
     The aim is to provide read/write anything. The module tries to guess
-    `$what' the "anything" is based on some rules. See new method Pod for
-    examples and the new and _guess_what entries elsewhere in this document
-    code for the implementation.
+    $what the "anything" is based on some rules. See "new" method Pod for
+    examples and "new" and "_guess_what" code for the implementation.
 
-    There are two methods the slurp and spew entries elsewhere in this
-    document to read/write whole `$what'.
+    There are two methods "slurp" and "spew" to read/write whole $what.
 
 MOTIVATION
-    The purpose is to be able to write portable one-liners (both commandline
-    and inside program) to read/write/slurp/spew files/strings/$what-ever.
-    As I'm sick of writing `File::Spec->catfile('folder', 'filename')' or
-    `use Path::Class; dir(); file();'.
+    The purpose is to be able to write portable one-liners (both
+    command-line and inside program) to read/write/slurp/spew
+    files/strings/$what-ever. As I'm sick of writing
+    "File::Spec->catfile('folder', 'filename')" or "use Path::Class; dir();
+    file();".
 
     First time I've used IO::Any for JSON::Util where for the function to
-    encode and decode files I can just say put as an argumen anything that
+    encode and decode files I can just say put as an argument anything that
     IO::Any accepts. It's then up to the users of that module to pass an
     array if it's a file, scalar ref if it is a string or relay on the
     module to guess $what.
 
-    Any suggestions, questions and also demotivations are more than welcome!
-
 METHODS
   new($what, $how, $options)
-    Open `$what' in `$how' mode.
+    Open $what in $how mode.
 
-    `$what' can be:
+    $what can be:
 
                     'filename'                => [ 'file' => 'filename' ],
                     'folder/filename'         => [ 'file' => 'folder/filename' ],
@@ -77,7 +74,7 @@ METHODS
     Returns filehandle. IO::String for 'string', IO::File for 'file'. 'http'
     not implemented jet :)
 
-    Here are alvailable `%$options' options:
+    Here are available %$options options:
 
         atomic    true/false if the file operations should be done using L<IO::AtomicFile> or L<IO::File>
         LOCK_SH   lock file for shared access
@@ -94,21 +91,21 @@ METHODS
         iostring
         iofile
 
-    `$what' is normalized path that can be used for IO::*.
+    $what is normalized path that can be used for IO::*.
 
   read($what)
-    Same as `IO::Any->new($what, '<');' or `IO::Any->new($what);'.
+    Same as "IO::Any->new($what, '<');" or "IO::Any->new($what);".
 
   write($what)
-    Same as `IO::Any->new($what, '>');'
+    Same as "IO::Any->new($what, '>');"
 
   slurp($what)
-    Returns content of `$what'.
+    Returns content of $what.
 
     If AnyEvent is loaded then uses event loop to read the content.
 
   spew($what, $data, $opt)
-    Writes `$data' to `$what'.
+    Writes $data to $what.
 
     If AnyEvent is loaded then uses event loop to write the content.
 
@@ -116,12 +113,12 @@ SEE ALSO
     IO::All, File::Spec, Path::Class
 
 AUTHOR
-    Jozef Kutej, `<jkutej at cpan.org>'
+    Jozef Kutej, "<jkutej at cpan.org>"
 
 BUGS
-    Please report any bugs or feature requests to `bug-io-any at
-    rt.cpan.org', or through the web interface at
-    http://rt.cpan.org/NoAuth/ReportBug.html?Queue=IO-Any. I will be
+    Please report any bugs or feature requests to "bug-io-any at
+    rt.cpan.org", or through the web interface at
+    <http://rt.cpan.org/NoAuth/ReportBug.html?Queue=IO-Any>. I will be
     notified, and then you'll automatically be notified of progress on your
     bug as I make changes.
 
@@ -132,20 +129,25 @@ SUPPORT
 
     You can also look for information at:
 
-    * GitHub: issues
-        http://github.com/jozef/IO-Any/issues
+    *   GitHub: issues
 
-    * RT: CPAN's request tracker
-        http://rt.cpan.org/NoAuth/Bugs.html?Dist=IO-Any
+        <http://github.com/jozef/IO-Any/issues>
 
-    * AnnoCPAN: Annotated CPAN documentation
-        http://annocpan.org/dist/IO-Any
+    *   RT: CPAN's request tracker
 
-    * CPAN Ratings
-        http://cpanratings.perl.org/d/IO-Any
+        <http://rt.cpan.org/NoAuth/Bugs.html?Dist=IO-Any>
 
-    * Search CPAN
-        http://search.cpan.org/dist/IO-Any
+    *   AnnoCPAN: Annotated CPAN documentation
+
+        <http://annocpan.org/dist/IO-Any>
+
+    *   CPAN Ratings
+
+        <http://cpanratings.perl.org/d/IO-Any>
+
+    *   Search CPAN
+
+        <http://search.cpan.org/dist/IO-Any>
 
 ACKNOWLEDGEMENTS
 COPYRIGHT & LICENSE

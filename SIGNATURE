@@ -1,5 +1,5 @@
 This file contains message digests of all files listed in MANIFEST,
-signed via the Module::Signature module, version 0.61.
+signed via the Module::Signature module, version 0.70.
 
 To verify the content in this distribution, first make sure you have
 Module::Signature installed, then type:
@@ -15,25 +15,26 @@ not run its Makefile.PL or Build.PL.
 Hash: SHA1
 
 SHA1 265f58fb0a226d5396814d829a4415b419f4db9b Build.PL
-SHA1 c066c8027ae55f378ff52cfb1220e3cc86106e06 Changes
-SHA1 4fc268ed6a613a08bb1161ebd44164cac6240afc MANIFEST
-SHA1 87462a7a9e63f5fcb384704056cae25459e1068a META.yml
-SHA1 4524bbbbaa6425167813d1eb0675aa9416454368 Makefile.PL
-SHA1 3e6e378b59713e77d6388b0ed09ce9a206720abc README
-SHA1 9eb3139237400911728ce078072e68282a421eb4 lib/IO/Any.pm
+SHA1 f10c803e3ba0114f186d7fbba0676428faaaacda Changes
+SHA1 e8c25aa9c137303ec115f01481d2315d8d6d3a9a MANIFEST
+SHA1 3e94c422781ee05103e0b040eca4dfd6f5e1a723 META.json
+SHA1 e5e3c4162faa045e520899f7af6e09012eed0b60 META.yml
+SHA1 6b8b45560b3f19eb3ff3326f58ef8bd0df59a8a9 Makefile.PL
+SHA1 427e9436de32439f0eb8b58d2d32ac9ef3464b33 README
+SHA1 aaa7d66a4b75c28661a99771374bdc64d3b2ca3d lib/IO/Any.pm
 SHA1 1cad69cb8439e10a08c1ee94379f45dfe4e62399 t/01_IO-Any.t
 SHA1 78814d5e0c7a09cf180449f263a004606736eaf3 t/02_IO-Any_AnyEvent.t
 SHA1 355685e337bdb802653d1458babb5f87218b9338 t/03_DATA.t
 SHA1 41533fbd463e42d2ecf1e119eca910c16809d13e t/distribution.t
 SHA1 10c564e5ffe84748070827b350edbf3d6b832b20 t/fixme.t
 SHA1 0b1c5a2d59be6bfa7d60c64cd964fea6a0331705 t/pod-coverage.t
-SHA1 4af641cdc7b41675aa47a429e93676a13e2864a2 t/pod-spell.t
+SHA1 604c9baaef91d59c5a9b23c1a96692e2efafcd88 t/pod-spell.t
 SHA1 640935336dc1123c0069bcf5432bcaedc2cf22d3 t/pod.t
 SHA1 98035ce77880d6b0f49d4739ea765d4af2a57137 t/stock/01.txt
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.10 (GNU/Linux)
+Version: GnuPG v1.4.12 (GNU/Linux)
 
-iEYEARECAAYFAkt0T3kACgkQC0OgUPgL2SeJbgCfX+ew38A11775/ZjPuh0cnyEP
-9bcAn3yT/DbxULiR80/F61rSyBnd8yIa
-=eX2U
+iEYEARECAAYFAlDW41YACgkQC0OgUPgL2SefwQCfTNOgHgOMA0FJzdVzrQujVIJ1
+lDIAn2ag9W0sAnCdKCGZqVeu6555U7Ck
+=jePa
 -----END PGP SIGNATURE-----

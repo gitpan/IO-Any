@@ -14,4 +14,5 @@ t/pod-coverage.t
 t/pod-spell.t
 t/pod.t
 t/stock/01.txt
+META.json
 SIGNATURE    Added here by Module::Build
