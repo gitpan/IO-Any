@@ -9,7 +9,7 @@ build_requires:
   Test::Exception: 0
   Test::More: 0
 configure_requires:
-  Module::Build: 0.38
+  Module::Build: 0.36
 dynamic_config: 1
 generated_by: 'Module::Build version 0.38, CPAN::Meta::Converter version 2.110440'
 keywords:
@@ -25,7 +25,7 @@ name: IO-Any
 provides:
   IO::Any:
     file: lib/IO/Any.pm
-    version: 0.05
+    version: 0.06
 requires:
   Carp: 0
   Fcntl: 0
@@ -38,4 +38,4 @@ resources:
   bugtracker: http://github.com/jozef/IO-Any/issues
   license: http://dev.perl.org/licenses/
   repository: git://github.com/jozef/IO-Any.git
-version: 0.05
+version: 0.06

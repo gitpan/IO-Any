@@ -2,7 +2,7 @@ NAME
     IO::Any - open anything
 
 SYNOPSIS
-        # NOTE commented out lines doesn't work (jet)
+        # NOTE commented out lines doesn't work (yet)
         use IO::Any;
 
         $fh = IO::Any->read('filename');
@@ -16,7 +16,7 @@ SYNOPSIS
         $fh = IO::Any->read('{"123":[1,2,3]}');
         $fh = IO::Any->read('<root><element>abc</element></root>');
         $fh = IO::Any->read(*DATA);
-        #$fh = IO::Any->read(IO::String->new("cba"));
+        $fh = IO::Any->read(IO::String->new("cba"));
         #$fh = IO::Any->read($object_with_toString_method);
 
         $fh = IO::Any->write('filename');
@@ -41,17 +41,15 @@ DESCRIPTION
     There are two methods "slurp" and "spew" to read/write whole $what.
 
 MOTIVATION
-    The purpose is to be able to write portable one-liners (both
-    command-line and inside program) to read/write/slurp/spew
-    files/strings/$what-ever. As I'm sick of writing
-    "File::Spec->catfile('folder', 'filename')" or "use Path::Class; dir();
-    file();".
+    The purpose is to be able to use IO::Any in other modules that needs to
+    read or write data. The description for an argument could be - pass
+    anything that IO::Any accepts as argument - GLOBs, IO::File,
+    Path::Class::File, IO::AtomicFile, IO::String, pointers to scalar and
+    pointer to array (array elements are passed to "catfile" in File::Spec
+    as portable file addressing).
 
-    First time I've used IO::Any for JSON::Util where for the function to
-    encode and decode files I can just say put as an argument anything that
-    IO::Any accepts. It's then up to the users of that module to pass an
-    array if it's a file, scalar ref if it is a string or relay on the
-    module to guess $what.
+    First time I've used IO::Any for JSON::Util where for the functions to
+    encode and decode needs to read/write data.
 
 METHODS
   new($what, $how, $options)
@@ -72,7 +70,7 @@ METHODS
                     *DATA                     => [ 'file' => *{DATA}{IO} ],
 
     Returns filehandle. IO::String for 'string', IO::File for 'file'. 'http'
-    not implemented jet :)
+    not implemented yet.
 
     Here are available %$options options:
 
