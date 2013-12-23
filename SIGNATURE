@@ -1,5 +1,5 @@
 This file contains message digests of all files listed in MANIFEST,
-signed via the Module::Signature module, version 0.70.
+signed via the Module::Signature module, version 0.68.
 
 To verify the content in this distribution, first make sure you have
 Module::Signature installed, then type:
@@ -15,25 +15,25 @@ not run its Makefile.PL or Build.PL.
 Hash: SHA1
 
 SHA1 98a4861240d9c8c694248070f2013d90f8c8b2e6 Build.PL
-SHA1 28317c9cca62634fb0b6869800829a08fae1c5f6 Changes
+SHA1 d9dd24a66d48417be2234be6b76cd3b4379c33e5 Changes
 SHA1 a27a9f7fcdf160410fd43432fe99194352f9d39b MANIFEST
-SHA1 b1b8d58bc1855c57cc36d1917b6a9b4d6f9ed7a1 META.json
-SHA1 acc26424c9e5a951493f0f766d96b2a1d77edd4e META.yml
+SHA1 25f8e7c41af3a8383e6946d4ebb6140fa9325f2f META.json
+SHA1 e53ca721e77a260196689689ab0338d328117c38 META.yml
 SHA1 b76e7b29199764ad6441b3fd572799171117bfe6 README
-SHA1 03ef08626e7c8d20970034ad462462367973da4c lib/IO/Any.pm
-SHA1 1cad69cb8439e10a08c1ee94379f45dfe4e62399 t/01_IO-Any.t
+SHA1 3e3bd24bf664ed70010ed1d8420a4dfa89e0c3e0 lib/IO/Any.pm
+SHA1 6c0df714409999be16608b5614617d738d071bfd t/01_IO-Any.t
 SHA1 faf5c8daeb6e0f7fb0b5f78146513319cf11cd94 t/02_IO-Any_AnyEvent.t
 SHA1 355685e337bdb802653d1458babb5f87218b9338 t/03_DATA.t
 SHA1 41533fbd463e42d2ecf1e119eca910c16809d13e t/distribution.t
 SHA1 10c564e5ffe84748070827b350edbf3d6b832b20 t/fixme.t
 SHA1 0b1c5a2d59be6bfa7d60c64cd964fea6a0331705 t/pod-coverage.t
-SHA1 604c9baaef91d59c5a9b23c1a96692e2efafcd88 t/pod-spell.t
+SHA1 8b7fbdf52ed1298513f41eed34bcd0d4513745a7 t/pod-spell.t
 SHA1 640935336dc1123c0069bcf5432bcaedc2cf22d3 t/pod.t
 SHA1 98035ce77880d6b0f49d4739ea765d4af2a57137 t/stock/01.txt
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.12 (GNU/Linux)
 
-iEYEARECAAYFAlD5HKMACgkQC0OgUPgL2SffjACgrzCjEGOWgBuIVABYaKZuWbX9
-GksAn2/oq1Jsy1IVs0ZmP92ecvSvADIk
-=PsFr
+iEYEARECAAYFAlK4S38ACgkQC0OgUPgL2SdzZwCfWv2gxjGG0UlxZAKEjDqnHdTv
+t8oAmgPfgxVYR6F2B86ElxnvgWURimqQ
+=KI4P
 -----END PGP SIGNATURE-----
