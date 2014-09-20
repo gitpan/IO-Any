@@ -4,7 +4,7 @@
       "Jozef Kutej <jkutej@cpan.org>"
    ],
    "dynamic_config" : 1,
-   "generated_by" : "Module::Build version 0.38, CPAN::Meta::Converter version 2.110440",
+   "generated_by" : "Module::Build version 0.4202",
    "keywords" : [
       "io",
       "portable",
@@ -22,11 +22,11 @@
    "prereqs" : {
       "build" : {
          "requires" : {
-            "File::Slurp" : 0,
-            "File::Temp" : 0,
-            "Test::Differences" : 0,
-            "Test::Exception" : 0,
-            "Test::More" : 0
+            "File::Slurp" : "0",
+            "File::Temp" : "0",
+            "Test::Differences" : "0",
+            "Test::Exception" : "0",
+            "Test::More" : "0"
          }
       },
       "configure" : {
@@ -36,20 +36,21 @@
       },
       "runtime" : {
          "requires" : {
-            "Carp" : 0,
-            "Fcntl" : 0,
-            "File::Spec" : 0,
-            "IO::AtomicFile" : 0,
-            "IO::File" : 0,
-            "IO::String" : 0,
-            "Scalar::Util" : 0
+            "Carp" : "0",
+            "Fcntl" : "0",
+            "File::Spec" : "0",
+            "IO::AtomicFile" : "0",
+            "IO::File" : "0",
+            "IO::String" : "0",
+            "List::MoreUtils" : "0",
+            "Scalar::Util" : "0"
          }
       }
    },
    "provides" : {
       "IO::Any" : {
          "file" : "lib/IO/Any.pm",
-         "version" : "0.07"
+         "version" : "0.08"
       }
    },
    "release_status" : "stable",
@@ -61,9 +62,8 @@
          "http://dev.perl.org/licenses/"
       ],
       "repository" : {
-         "type" : "git",
          "url" : "git://github.com/jozef/IO-Any.git"
       }
    },
-   "version" : "0.07"
+   "version" : "0.08"
 }
