@@ -50,7 +50,7 @@
    "provides" : {
       "IO::Any" : {
          "file" : "lib/IO/Any.pm",
-         "version" : "0.08"
+         "version" : "0.09"
       }
    },
    "release_status" : "stable",
@@ -65,5 +65,5 @@
          "url" : "git://github.com/jozef/IO-Any.git"
       }
    },
-   "version" : "0.08"
+   "version" : "0.09"
 }

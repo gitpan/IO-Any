@@ -25,7 +25,7 @@ name: IO-Any
 provides:
   IO::Any:
     file: lib/IO/Any.pm
-    version: 0.08
+    version: 0.09
 requires:
   Carp: 0
   Fcntl: 0
@@ -39,4 +39,4 @@ resources:
   bugtracker: http://github.com/jozef/IO-Any/issues
   license: http://dev.perl.org/licenses/
   repository: git://github.com/jozef/IO-Any.git
-version: 0.08
+version: 0.09
